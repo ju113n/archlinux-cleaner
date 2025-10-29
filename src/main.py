@@ -63,13 +63,13 @@ def list_explicit_packages() -> tuple[List[tuple], List[tuple]]:
 
 def list_orphans() -> List[tuple]:
     # -Qqdt: dependencies installed explicitly but not required by others (orphans)
-    proc = run("pacman -Qqtd")
+    proc = subprocess.run(["pacman", "-Qqtd"], text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 
     if proc.returncode != 0:
         # pacman returns non-zero if no orphans are found
         return []
 
-    return [to_obj(l) for l in proc.stdout.strip().splitlines()]
+    return [to_obj(l) for l in run("pacman -Qqtd").stdout.strip().splitlines()]
 
 
 def to_obj(line: str) -> tuple[str, str, datetime.date]:
