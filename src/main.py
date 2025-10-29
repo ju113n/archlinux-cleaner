@@ -107,7 +107,7 @@ def remove_orphans(pkgs: List[str]) -> None:
         return
 
     # Build pacman -Rns command
-    base_cmd = 'pacman -Rns ' + ' '.join(pkgs)
+    base_cmd = 'pacman -Rns --noconfirm ' + ' '.join(pkgs)
 
     if os.geteuid() != 0:
         sudo = shutil.which("sudo")
